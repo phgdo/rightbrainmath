@@ -44,8 +44,8 @@ export default function LevelPage() {
 
   return (
     <div className="h-[calc(100vh-4rem)] snap-y snap-mandatory overflow-y-auto overscroll-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-      <section className="mx-auto flex min-h-full max-w-6xl flex-col justify-center px-4 py-10">
-        <div className="card border-l-4" style={{ borderLeftColor: th.stroke }}>
+      <section className="mx-auto flex min-h-full max-w-6xl flex-col px-4 py-10">
+        <div className="card my-auto border-l-4" style={{ borderLeftColor: th.stroke }}>
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center">
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-3">
@@ -100,8 +100,8 @@ export default function LevelPage() {
             const hasQuiz = (exercisesByLesson[lsn.id]?.length ?? 0) > 0
             if (!full) {
               return (
-                <section key={lsn.id} className="mx-auto flex min-h-full w-full max-w-6xl snap-start flex-col justify-center px-4 py-4">
-                  <div className="card border-dashed">
+                <section key={lsn.id} className="mx-auto flex min-h-full w-full max-w-6xl snap-start flex-col px-4 py-4">
+                  <div className="card my-auto border-dashed">
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                       <div className="min-w-0">
                         <p className="font-bold text-stone-500">{lsn.title}</p>
@@ -126,9 +126,9 @@ export default function LevelPage() {
                 ref={(el) => {
                   refs.current[lsn.id] = el
                 }}
-                className="mx-auto flex min-h-full w-full max-w-6xl snap-start flex-col justify-center px-4 py-8"
+                className="mx-auto flex min-h-full w-full max-w-6xl snap-start flex-col px-4 py-8"
               >
-                <div className="card grid gap-6 lg:grid-cols-[1fr_280px]">
+                <div className="card my-auto grid gap-6 lg:grid-cols-[1fr_280px]">
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
                       <span className={`chip ${th.badge}`}>{ch.title}</span>
@@ -137,7 +137,7 @@ export default function LevelPage() {
                     <h3 className="mt-2 text-2xl font-extrabold tracking-tight text-stone-900">{lsn.title}</h3>
                     <p className="mt-2 leading-relaxed text-stone-600">{lsn.bigPicture}</p>
                     {lsn.visual && (
-                      <div className="mt-4 h-[38vh] max-h-[480px] overflow-hidden rounded-xl border border-stone-100 bg-white [&_svg]:h-full [&_svg]:w-full">
+                      <div className="mt-4 h-[28vh] max-h-[380px] md:h-[32vh] lg:h-[36vh] lg:max-h-[460px] overflow-hidden rounded-xl border border-stone-100 bg-white [&_svg]:h-full [&_svg]:w-full">
                         <Visual kind={lsn.visual} color={th.stroke} />
                       </div>
                     )}
@@ -188,10 +188,10 @@ export default function LevelPage() {
       ))}
 
       {level.num < 6 && (
-        <section className="mx-auto flex min-h-full w-full max-w-6xl snap-start flex-col justify-center px-4 py-10">
+        <section className="mx-auto flex min-h-full w-full max-w-6xl snap-start flex-col px-4 py-10">
           <Link
             to={`/level/l${level.num + 1}`}
-            className={`flex items-center justify-between rounded-2xl p-5 text-white ${themes[levels[level.num].theme].solid}`}
+            className={`my-auto flex items-center justify-between rounded-2xl p-5 text-white ${themes[levels[level.num].theme].solid}`}
           >
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-white/80">Level tiếp theo</p>

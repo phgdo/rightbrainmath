@@ -207,7 +207,7 @@ export default function LessonPage() {
           )}
 
           {exercises.length > 0 && (
-            <section id="bai-tap" className="card">
+            <section id="bai-tap" className="card scroll-mt-24">
               <BlockTitle icon="target" title="Bài tập" hint="mỗi dạng 2–3 câu tiêu biểu" />
               <div className="mt-4">
                 <Quiz exercises={exercises} />
