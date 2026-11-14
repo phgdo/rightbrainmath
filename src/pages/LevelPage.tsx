@@ -1,148 +1,199 @@
-import { Link, useParams } from 'react-router-dom'
+import { useEffect, useRef } from 'react'
+import { Link, Navigate, useParams } from 'react-router-dom'
 import { flatLessons, levels, themes } from '../data/content'
+import { exercisesByLesson } from '../data/exercises'
 import { Icon } from '../components/Icon'
+import { Visual } from '../components/Visuals'
 import { useProgress } from '../hooks/useProgress'
+import { saveLastLevel } from '../components/Navigation'
 
 export default function LevelPage() {
   const { levelId } = useParams()
   const level = levels.find((l) => l.id === levelId)
   const { done, isDone, toggle } = useProgress()
+  const refs = useRef<Record<string, HTMLElement | null>>({})
+  const scrolled = useRef(false)
 
-  if (!level) {
-    return <div className="mx-auto max-w-3xl px-4 py-20 text-center text-stone-500">Không tìm thấy level.</div>
-  }
+  useEffect(() => {
+    if (level) saveLastLevel(level.id)
+  }, [level])
 
+  useEffect(() => {
+    if (!level || scrolled.current) return
+    scrolled.current = true
+    const firstUndone = flatLessons().find(
+      (x) => x.level.id === level.id && x.lesson.status === 'full' && !done.has(x.lesson.id),
+    )
+    const target = firstUndone?.lesson.id ?? level.chapters[0]?.lessons[0]?.id
+    const el = target ? refs.current[target] : undefined
+    if (el) el.scrollIntoView({ block: 'start' })
+  }, [level, done])
+
+  if (!level) return <Navigate to="/level/l1" replace />
   const th = themes[level.theme]
   const ls = flatLessons().filter((x) => x.level.id === level.id)
+  const fullCount = ls.filter((x) => x.lesson.status === 'full').length
   const pct = ls.length ? Math.round((ls.filter((x) => done.has(x.lesson.id)).length / ls.length) * 100) : 0
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10">
-      <nav className="text-sm text-stone-500">
-        <Link to="/" className="hover:text-stone-800">Lộ trình</Link>
-        <span className="mx-1.5">/</span>
-        <span className="font-semibold text-stone-800">Level {level.num}</span>
-      </nav>
-
-      <header className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-start">
-        <div className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl text-2xl font-extrabold text-white ${th.solid}`}>
-          {level.num}
-        </div>
-        <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-stone-900">{level.name}</h1>
-          <p className={`text-lg font-semibold ${th.text}`}>{level.nameEn}</p>
-          <p className="mt-2 text-stone-600">{level.tagline}</p>
-        </div>
-      </header>
-
-      <div className="card mt-6 border-l-4" style={{ borderLeftColor: th.stroke }}>
-        <p className="text-xs font-bold uppercase tracking-wide text-stone-500">Sau level này bạn làm được gì</p>
-        <p className="mt-1.5 leading-relaxed text-stone-700">{level.outcome}</p>
-      </div>
-
-      <div className="card mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-start gap-3">
-          <span className={`mt-0.5 flex h-9 w-9 items-center justify-center rounded-lg ${th.soft} ${th.text}`}>
-            <Icon name="book" className="h-5 w-5" />
-          </span>
-          <div>
-            <p className="font-bold text-stone-900">{level.textbook.title}</p>
-            <p className="text-sm text-stone-500">
-              {level.textbook.author}
-              {level.textbook.note ? ` — ${level.textbook.note}` : ''}
-            </p>
+    <div>
+      <section className="snap-lesson mx-auto max-w-6xl px-4 pt-10 pb-6">
+        <div className="card border-l-4" style={{ borderLeftColor: th.stroke }}>
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-3">
+                <span className={`flex h-11 w-11 items-center justify-center rounded-xl text-lg font-extrabold text-white ${th.solid}`}>
+                  {level.num}
+                </span>
+                <div>
+                  <h1 className="text-2xl font-extrabold tracking-tight text-stone-900">Level {level.num} · {level.name}</h1>
+                  <p className={`text-sm font-semibold ${th.text}`}>{level.nameEn}</p>
+                </div>
+              </div>
+              <p className="mt-3 leading-relaxed text-stone-600">{level.tagline}</p>
+              <p className="mt-2 text-sm leading-relaxed text-stone-500">
+                <span className="font-semibold text-stone-700">Mục tiêu: </span>{level.outcome}
+              </p>
+            </div>
+            <div className="shrink-0 space-y-3 lg:w-72">
+              <div>
+                <div className="flex justify-between text-xs font-semibold text-stone-500">
+                  <span>Tiến độ</span>
+                  <span className={th.text}>{pct}%</span>
+                </div>
+                <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-stone-100">
+                  <div className={`h-full rounded-full ${th.bar}`} style={{ width: `${pct}%` }} />
+                </div>
+                <p className="mt-1 text-xs text-stone-400">{fullCount} bài trực quan · lăn chuột để học tiếp</p>
+              </div>
+              <a
+                href={level.textbook.url}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-3 rounded-xl border border-stone-200 p-3 transition hover:bg-stone-50"
+              >
+                <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${th.soft} ${th.text}`}>
+                  <Icon name="book" className="h-5 w-5" />
+                </span>
+                <span className="min-w-0 text-xs leading-snug text-stone-500">
+                  <span className="block font-bold text-stone-800">{level.textbook.title}</span>
+                  {level.textbook.author} — mở PDF
+                </span>
+              </a>
+            </div>
           </div>
         </div>
-        <a
-          href={level.textbook.url}
-          target="_blank"
-          rel="noreferrer"
-          className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white ${th.solid}`}
-        >
-          Mở giáo trình PDF <Icon name="arrow" className="h-4 w-4" />
-        </a>
-      </div>
+      </section>
 
-      <div className="mt-8 space-y-8">
-        {level.chapters.map((ch, ci) => (
-          <section key={ch.id}>
-            <div className="flex items-baseline gap-3">
-              <h2 className="text-xl font-extrabold text-stone-900">
-                <span className={th.text}>{level.num}.{ci + 1}</span> {ch.title}
-              </h2>
+      {level.chapters.map((ch) => (
+        <div key={ch.id}>
+          <div className="mx-auto max-w-6xl px-4">
+            <div className="flex items-center gap-3 border-t border-dashed border-stone-300 pt-4 pb-2">
+              <span className={`chip ${th.badge}`}>Chương</span>
+              <h2 className="text-base font-extrabold text-stone-800">{ch.title}</h2>
+              <span className="hidden truncate text-sm text-stone-400 lg:block">{ch.bigIdea}</span>
             </div>
-            <p className={`mt-1 rounded-lg px-3 py-2 text-sm leading-relaxed text-stone-600 ${th.soft}`}>
-              <span className={`font-semibold ${th.text}`}>Ý chính: </span>
-              {ch.bigIdea}
-            </p>
-            <ul className="mt-3 space-y-2">
-              {ch.lessons.map((lsn) => {
-                const full = lsn.status === 'full'
-                const checked = isDone(lsn.id)
-                const body = (
-                  <>
-                    <div className="min-w-0 flex-1">
-                      <p className={`font-semibold ${full ? 'text-stone-900' : 'text-stone-500'}`}>{lsn.title}</p>
-                      <p className="mt-0.5 line-clamp-2 text-sm text-stone-500">{lsn.bigPicture}</p>
-                      <div className="mt-1.5 flex items-center gap-2">
-                        <span className="text-xs text-stone-400">{lsn.minutes} phút</span>
-                        {full ? (
-                          <span className={`chip ${th.badge}`}>bài trực quan</span>
-                        ) : (
-                          <span className="chip border border-stone-200 bg-stone-100 text-stone-500">bản đồ ý tưởng</span>
-                        )}
+          </div>
+          {ch.lessons.map((lsn) => {
+            const full = lsn.status === 'full'
+            const checked = isDone(lsn.id)
+            const hasQuiz = (exercisesByLesson[lsn.id]?.length ?? 0) > 0
+            if (!full) {
+              return (
+                <section key={lsn.id} className="mx-auto max-w-6xl px-4 py-4">
+                  <div className="card border-dashed">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                      <div className="min-w-0">
+                        <p className="font-bold text-stone-500">{lsn.title}</p>
+                        <p className="mt-0.5 text-sm text-stone-500">{lsn.bigPicture}</p>
                       </div>
+                      <a
+                        href={level.textbook.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="shrink-0 text-sm font-semibold text-stone-500 hover:text-stone-800"
+                      >
+                        Đọc trong PDF →
+                      </a>
                     </div>
-                    {checked && <Icon name="check" className="h-5 w-5 shrink-0 text-emerald-600" />}
-                  </>
-                )
-                return (
-                  <li key={lsn.id} className="flex items-center gap-3 rounded-xl border border-stone-200 bg-white p-4 transition hover:shadow-sm">
-                    {full && (
+                  </div>
+                </section>
+              )
+            }
+            return (
+              <section
+                key={lsn.id}
+                ref={(el) => {
+                  refs.current[lsn.id] = el
+                }}
+                className="snap-lesson mx-auto max-w-6xl px-4 py-6"
+              >
+                <div className="card grid gap-6 lg:grid-cols-[1fr_280px]">
+                  <div className="min-w-0">
+                    <h3 className="text-xl font-extrabold tracking-tight text-stone-900">{lsn.title}</h3>
+                    <p className="mt-2 leading-relaxed text-stone-600">{lsn.bigPicture}</p>
+                    {lsn.visual && (
+                      <div className="mt-4 overflow-hidden rounded-xl border border-stone-100 bg-white">
+                        <Visual kind={lsn.visual} color={th.stroke} />
+                      </div>
+                    )}
+                    {lsn.rhythm && (
+                      <p className="mt-4 rounded-xl bg-stone-900 px-4 py-3 text-center text-sm font-bold leading-relaxed text-stone-100">
+                        “{lsn.rhythm.verse}”
+                      </p>
+                    )}
+                  </div>
+                  <aside className="flex flex-row flex-wrap items-start gap-3 lg:sticky lg:top-20 lg:flex-col">
+                    <div className="flex w-full flex-col gap-2">
+                      <Link
+                        to={`/lesson/${lsn.id}`}
+                        className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-white ${th.solid} hover:opacity-90`}
+                      >
+                        Chi tiết <Icon name="arrow" className="h-4 w-4" />
+                      </Link>
+                      {hasQuiz && (
+                        <Link
+                          to={`/lesson/${lsn.id}#bai-tap`}
+                          className="inline-flex items-center justify-center gap-2 rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-stone-700 transition hover:bg-stone-50"
+                        >
+                          <Icon name="target" className="h-4 w-4" /> Bài tập ({exercisesByLesson[lsn.id].length})
+                        </Link>
+                      )}
                       <button
                         onClick={() => toggle(lsn.id)}
-                        aria-label="Đánh dấu hoàn thành"
-                        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md border transition ${checked ? 'border-emerald-600 bg-emerald-600 text-white' : 'border-stone-300 bg-white text-transparent hover:border-stone-400'}`}
+                        className={`inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-semibold transition ${
+                          checked
+                            ? 'border-emerald-300 bg-emerald-50 text-emerald-700'
+                            : 'border-stone-300 bg-white text-stone-500 hover:bg-stone-50'
+                        }`}
                       >
                         <Icon name="check" className="h-4 w-4" />
+                        {checked ? 'Đã hoàn thành' : 'Đánh dấu xong'}
                       </button>
-                    )}
-                    {full ? (
-                      <Link to={`/lesson/${lsn.id}`} className="flex min-w-0 flex-1 items-start gap-3">
-                        {body}
-                      </Link>
-                    ) : (
-                      <div className="flex min-w-0 flex-1 items-start gap-3">{body}</div>
-                    )}
-                  </li>
-                )
-              })}
-            </ul>
-          </section>
-        ))}
-      </div>
+                      <p className="text-center text-xs text-stone-400 lg:text-left">{lsn.minutes} phút · cuộn xuống để sang bài sau</p>
+                    </div>
+                  </aside>
+                </div>
+              </section>
+            )
+          })}
+        </div>
+      ))}
 
-      <div className="mt-10 rounded-2xl border border-stone-200 bg-white p-5">
-        <div className="flex items-center justify-between text-sm font-semibold text-stone-700">
-          <span>Tiến độ level {level.num}</span>
-          <span className={th.text}>{pct}%</span>
-        </div>
-        <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-stone-100">
-          <div className={`h-full rounded-full ${th.bar}`} style={{ width: `${pct}%` }} />
-        </div>
-        <div className="mt-4 flex justify-between">
-          {level.num > 1 && (
-            <Link to={`/level/l${level.num - 1}`} className="text-sm font-semibold text-stone-500 hover:text-stone-800">
-              ← Level {level.num - 1}
-            </Link>
-          )}
-          {level.num < 6 && (
-            <Link to={`/level/l${level.num + 1}`} className="ml-auto text-sm font-semibold text-stone-500 hover:text-stone-800">
-              Level {level.num + 1} →
-            </Link>
-          )}
-        </div>
-      </div>
+      {level.num < 6 && (
+        <section className="mx-auto max-w-6xl px-4 py-10">
+          <Link
+            to={`/level/l${level.num + 1}`}
+            className={`flex items-center justify-between rounded-2xl p-5 text-white ${themes[levels[level.num].theme].solid}`}
+          >
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-white/80">Level tiếp theo</p>
+              <p className="text-lg font-extrabold">Level {level.num + 1} · {levels[level.num].name}</p>
+            </div>
+            <Icon name="arrow" className="h-6 w-6" />
+          </Link>
+        </section>
+      )}
     </div>
   )
 }

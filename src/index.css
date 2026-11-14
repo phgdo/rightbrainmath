@@ -6,10 +6,16 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
 }
 
 body {
   @apply bg-stone-50 text-stone-800 antialiased;
+}
+
+.snap-lesson {
+  scroll-snap-align: start;
+  scroll-margin-top: 64px;
 }
 
 .tex-display {
@@ -26,4 +32,67 @@ body {
 
 .katex {
   font-size: 1.06em;
+}
+
+@keyframes dash-move {
+  to { stroke-dashoffset: -56; }
+}
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+@keyframes pulse-soft {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+@keyframes climb {
+  0% { transform: translateY(40px); opacity: 0; }
+  25% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateY(-130px); opacity: 0; }
+}
+@keyframes tilt {
+  0%, 100% { transform: rotate(-1.6deg); }
+  50% { transform: rotate(1.6deg); }
+}
+@keyframes fall {
+  0%, 15% { transform: rotate(0deg); }
+  45%, 100% { transform: rotate(64deg); }
+}
+
+.anim-dash {
+  stroke-dasharray: 9 7;
+  animation: dash-move 1.5s linear infinite;
+}
+.anim-float {
+  animation: float-y 3s ease-in-out infinite;
+}
+.anim-pulse {
+  animation: pulse-soft 2.2s ease-in-out infinite;
+}
+.anim-spin {
+  animation: spin-slow 14s linear infinite;
+  transform-box: view-box;
+}
+.anim-climb {
+  animation: climb 3.2s ease-in-out infinite;
+}
+.anim-tilt {
+  animation: tilt 4s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.anim-fall {
+  animation: fall 2.6s ease-in infinite;
+  transform-box: fill-box;
+  transform-origin: bottom right;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-dash, .anim-float, .anim-pulse, .anim-spin, .anim-climb, .anim-tilt, .anim-fall {
+    animation: none !important;
+  }
 }

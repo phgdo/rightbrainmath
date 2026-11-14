@@ -7,6 +7,8 @@ export type VisualKind =
 
 export interface Step { label?: string; color: ColorKey; text: string; math?: string }
 
+export interface Exercise { q: string; math?: string; options: string[]; answer: number; explain: string }
+
 export interface Lesson {
   id: string
   title: string

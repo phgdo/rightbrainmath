@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { flatLessons, getLesson, stepColors, themes } from '../data/content'
+import { exercisesByLesson } from '../data/exercises'
 import { Icon } from '../components/Icon'
 import { Visual } from '../components/Visuals'
 import { Tex } from '../components/Tex'
+import { Quiz } from '../components/Quiz'
 import { saveLastLesson, useProgress } from '../hooks/useProgress'
 
 function Steps({ steps }: { steps: { color: keyof typeof stepColors; label?: string; text: string; math?: string }[] }) {
@@ -91,6 +93,7 @@ export default function LessonPage() {
   const prev = idx > 0 ? flat[idx - 1] : undefined
   const next = idx < flat.length - 1 ? flat[idx + 1] : undefined
   const done = isDone(lesson.id)
+  const exercises = exercisesByLesson[lesson.id] ?? []
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
@@ -194,6 +197,15 @@ export default function LessonPage() {
                 <span className="text-xs text-stone-400">nói to như đang giảng — tick khi xong</span>
               </div>
               <FeynmanCard prompts={lesson.feynman} />
+            </section>
+          )}
+
+          {exercises.length > 0 && (
+            <section id="bai-tap" className="card">
+              <BlockTitle icon="target" title="Bài tập" hint="mỗi dạng 2–3 câu tiêu biểu" />
+              <div className="mt-4">
+                <Quiz exercises={exercises} />
+              </div>
             </section>
           )}
 
