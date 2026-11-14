@@ -13,20 +13,26 @@ export default function LevelPage() {
   const { done, isDone, toggle } = useProgress()
   const refs = useRef<Record<string, HTMLElement | null>>({})
   const scrolled = useRef(false)
+  const lastLevelId = useRef<string | undefined>(undefined)
 
   useEffect(() => {
     if (level) saveLastLevel(level.id)
   }, [level])
 
   useEffect(() => {
-    if (!level || scrolled.current) return
+    if (!level) return
+    if (lastLevelId.current !== level.id) {
+      lastLevelId.current = level.id
+      scrolled.current = false
+    }
+    if (scrolled.current) return
     scrolled.current = true
     const firstUndone = flatLessons().find(
       (x) => x.level.id === level.id && x.lesson.status === 'full' && !done.has(x.lesson.id),
     )
     const target = firstUndone?.lesson.id ?? level.chapters[0]?.lessons[0]?.id
     const el = target ? refs.current[target] : undefined
-    if (el) el.scrollIntoView({ block: 'start' })
+    if (el) el.scrollIntoView({ block: 'start', behavior: 'instant' as ScrollBehavior })
   }, [level, done])
 
   if (!level) return <Navigate to="/level/l1" replace />
@@ -36,8 +42,8 @@ export default function LevelPage() {
   const pct = ls.length ? Math.round((ls.filter((x) => done.has(x.lesson.id)).length / ls.length) * 100) : 0
 
   return (
-    <div>
-      <section className="snap-lesson mx-auto max-w-6xl px-4 pt-10 pb-6">
+    <div className="h-[calc(100vh-4rem)] snap-y snap-mandatory overflow-y-auto overscroll-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <section className="mx-auto flex min-h-full max-w-6xl flex-col justify-center px-4 py-10">
         <div className="card border-l-4" style={{ borderLeftColor: th.stroke }}>
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center">
             <div className="min-w-0 flex-1">
@@ -93,7 +99,7 @@ export default function LevelPage() {
             const hasQuiz = (exercisesByLesson[lsn.id]?.length ?? 0) > 0
             if (!full) {
               return (
-                <section key={lsn.id} className="mx-auto max-w-6xl px-4 py-4">
+                <section key={lsn.id} className="mx-auto flex min-h-full w-full max-w-6xl snap-start flex-col justify-center px-4 py-4">
                   <div className="card border-dashed">
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                       <div className="min-w-0">
@@ -119,7 +125,7 @@ export default function LevelPage() {
                 ref={(el) => {
                   refs.current[lsn.id] = el
                 }}
-                className="snap-lesson mx-auto flex min-h-[calc(100vh-4rem)] max-w-6xl flex-col justify-center px-4 py-8"
+                className="mx-auto flex min-h-full w-full max-w-6xl snap-start flex-col justify-center px-4 py-8"
               >
                 <div className="card grid gap-6 lg:grid-cols-[1fr_280px]">
                   <div className="min-w-0">
@@ -178,7 +184,7 @@ export default function LevelPage() {
       ))}
 
       {level.num < 6 && (
-        <section className="mx-auto max-w-6xl px-4 py-10">
+        <section className="mx-auto flex min-h-full w-full max-w-6xl snap-start flex-col justify-center px-4 py-10">
           <Link
             to={`/level/l${level.num + 1}`}
             className={`flex items-center justify-between rounded-2xl p-5 text-white ${themes[levels[level.num].theme].solid}`}
