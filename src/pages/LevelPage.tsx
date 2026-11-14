@@ -87,13 +87,6 @@ export default function LevelPage() {
 
       {level.chapters.map((ch) => (
         <div key={ch.id}>
-          <div className="mx-auto max-w-6xl px-4">
-            <div className="flex items-center gap-3 border-t border-dashed border-stone-300 pt-4 pb-2">
-              <span className={`chip ${th.badge}`}>Chương</span>
-              <h2 className="text-base font-extrabold text-stone-800">{ch.title}</h2>
-              <span className="hidden truncate text-sm text-stone-400 lg:block">{ch.bigIdea}</span>
-            </div>
-          </div>
           {ch.lessons.map((lsn) => {
             const full = lsn.status === 'full'
             const checked = isDone(lsn.id)
@@ -126,14 +119,18 @@ export default function LevelPage() {
                 ref={(el) => {
                   refs.current[lsn.id] = el
                 }}
-                className="snap-lesson mx-auto max-w-6xl px-4 py-6"
+                className="snap-lesson mx-auto flex min-h-[calc(100vh-4rem)] max-w-6xl flex-col justify-center px-4 py-8"
               >
                 <div className="card grid gap-6 lg:grid-cols-[1fr_280px]">
                   <div className="min-w-0">
-                    <h3 className="text-xl font-extrabold tracking-tight text-stone-900">{lsn.title}</h3>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className={`chip ${th.badge}`}>{ch.title}</span>
+                      <span className="text-xs text-stone-400">{lsn.minutes} phút</span>
+                    </div>
+                    <h3 className="mt-2 text-2xl font-extrabold tracking-tight text-stone-900">{lsn.title}</h3>
                     <p className="mt-2 leading-relaxed text-stone-600">{lsn.bigPicture}</p>
                     {lsn.visual && (
-                      <div className="mt-4 overflow-hidden rounded-xl border border-stone-100 bg-white">
+                      <div className="mt-4 h-[38vh] max-h-[480px] overflow-hidden rounded-xl border border-stone-100 bg-white [&_svg]:h-full [&_svg]:w-full">
                         <Visual kind={lsn.visual} color={th.stroke} />
                       </div>
                     )}
@@ -170,7 +167,7 @@ export default function LevelPage() {
                         <Icon name="check" className="h-4 w-4" />
                         {checked ? 'Đã hoàn thành' : 'Đánh dấu xong'}
                       </button>
-                      <p className="text-center text-xs text-stone-400 lg:text-left">{lsn.minutes} phút · cuộn xuống để sang bài sau</p>
+                      <p className="text-center text-xs text-stone-400 lg:text-left">cuộn xuống để sang bài sau</p>
                     </div>
                   </aside>
                 </div>
