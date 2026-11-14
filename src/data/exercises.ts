@@ -136,6 +136,34 @@ export const exercisesByLesson: Record<string, Exercise[]> = {
       explain: 'Dốc lên đều = tăng đều. Dốc càng đứng càng tăng nhanh; đường phẳng = không đổi.',
     },
   ],
+  l1c3s2: [
+    {
+      q: 'Hàng 200.000đ giảm 20% rồi giảm tiếp 10%. Giá cuối?',
+      options: ['144.000đ', '140.000đ', '160.000đ', '150.000đ'],
+      answer: 0,
+      explain: '200k − 20% = 160k; giảm 10% tính trên 160k → −16k → 144k. Tổng giảm 28%, không phải 30%.',
+    },
+    {
+      q: 'Gửi 1.000.000đ, lãi đơn 5%/năm. Lãi 3 năm là?',
+      options: ['150.000đ', '50.000đ', '157.625đ', '1.150.000đ'],
+      answer: 0,
+      explain: 'Lãi đơn: mỗi năm 50.000 (5% của gốc) → 3 năm = 150.000. Công thức: gốc × suất × năm.',
+    },
+  ],
+  l1c5s4: [
+    {
+      q: 'Rút gọn: 5x + 3 + 2x − 1 = ?',
+      options: ['7x + 2', '7x + 4', '10x + 2', '7x² + 2'],
+      answer: 0,
+      explain: 'Gom ngăn x: 5x + 2x = 7x; gom ngăn tự do: 3 − 1 = 2. Cùng bậc mới gộp chung.',
+    },
+    {
+      q: 'Nhân: 3x(4x + 2) = ?',
+      options: ['12x² + 6x', '12x + 6', '7x² + 5x', '12x² + 2'],
+      answer: 0,
+      explain: 'Phân phối: 3x · 4x = 12x² (nhân hệ số, cộng mũ); 3x · 2 = 6x.',
+    },
+  ],
   l2c1s1: [
     {
       q: 'Khai triển (x + 5)² = ?',

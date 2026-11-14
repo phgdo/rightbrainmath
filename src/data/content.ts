@@ -167,6 +167,36 @@ export const levels: Level[] = [
               'Giải thích “cảnh sát giao thông cho đáp án” — ước lượng bắt lỗi máy tính thế nào?',
             ],
           },
+          {
+            id: 'l1c1s4', title: 'Ước lượng × Độ lớn: làm quen “triệu – tỷ”', minutes: 10, status: 'full',
+            bigPicture: 'Trước khi tính, hãy CÂN ĐO độ lớn: 1 nghìn = 10 × 1 trăm; 1 triệu = 1.000 × 1 nghìn; 1 tỷ = 1.000 × 1 triệu. Não phải cần thang bậc: số to hơn bao nhiêu so với số nhỏ? Nhân 10 là “thêm một chữ số 0”, nhân 1.000 là “thêm ba”.',
+            story: {
+              title: 'Thang bậc của tiền',
+              body: 'Hãy đứng đầu thang: 1 đơn vị → 10 → 100 → 1 nghìn → 10 nghìn → 100 nghìn → 1 TRIỆU → 10 triệu → 100 triệu → 1 TỶ. Mỗi bậc là nhân 10 — thêm một “sàn nhà”. Trăm nghìn là tiền mua điện thoại; 10 triệu là tiền mua xe máy; 1 tỷ là tiền mua căn nhà nhỏ. Khi đọc tin tức “cán bộ chiếm đoạt 30 tỷ”, não phải của bạn hình dung được: bằng 30 căn nhà. Không cần tính chính xác — chỉ cần THANG BẬC để số không còn là những con chữ vô nghĩa.',
+            },
+            colorExample: {
+              intro: 'Sắp theo độ lớn: 2.500.000; 250.000; 2 tỷ; 25 triệu.',
+              steps: [
+                { label: 'Đếm số “sàn nhà”', color: 'blue', text: 'Đếm nhóm 3 chữ số: 250.000 (trăm nghìn) < 2.500.000 (2,5 triệu) < 25 triệu < 2 tỷ.' },
+                { label: 'Đổi thước so sánh', color: 'green', text: '2 tỷ = 2.000 triệu; 25 triệu = 0,025 tỷ — cùng một thang, khác đơn vị.' },
+                { label: 'Gắn đời thực', color: 'amber', text: '250k ≈ điện thoại cũ; 2,5 triệu ≈ xe đạp điện; 25 triệu ≈ laptop cao cấp; 2 tỷ ≈ căn hộ.' },
+              ],
+            },
+            rhythm: { verse: 'Nhân 10 thêm một sàn — nghìn, triệu, tỷ leo thang.', note: 'Mỗi “sàn” = nhóm 3 chữ số. Đếm nhóm là biết độ lớn, không cần đọc từng chữ số.' },
+            representative: {
+              problem: 'Một chiếc xe máy 40 triệu và một căn nhà 4 tỷ. Nhà đắt gấp bao nhiêu lần xe?',
+              steps: [
+                { color: 'blue', text: 'Đổi cùng thang: 4 tỷ = 4.000 triệu.' },
+                { color: 'green', text: 'Chia:', math: R`4\,000 \div 40 = 100` },
+                { color: 'amber', text: 'Nhà đắt gấp 100 lần — cảm giác độ lớn này chính xác hơn mọi con số viết dài.' },
+              ],
+            },
+            feynman: [
+              'Đọc to thang bậc: nghìn → triệu → tỷ, mỗi bậc nhân bao nhiêu?',
+              'Gắn 5 con số tiền vào đồ vật thật quanh bạn để “cảm” độ lớn.',
+              'Vì sao 2.500.000 và 250.000 chênh nhau đúng một “sàn nhà”?',
+            ],
+          },
         ],
       },
       {
@@ -271,6 +301,38 @@ export const levels: Level[] = [
               'Kể lại “25% giảm giá” bằng ngôn ngữ “trên mỗi 100” cho người chưa học.',
               'Vẽ tam giác phần trăm từ trí nhớ và nói cách giải khi che từng góc.',
               'Giải thích cái bẫy “đã gồm VAT 10%” — vì sao không được lấy 220.000 × 10%.',
+            ],
+          },
+          {
+            id: 'l1c3s2', title: 'Lãi đơn, giảm giá & thuế: phần trăm đi làm', minutes: 20, status: 'full',
+            bigPicture: 'Tam giác Phần–Tổng–Tỉ số giải cả bốn ứng dụng tiền bạc: GIẢM GIÁ (trừ phần), THUẾ (cộng phần), LÃI ĐƠN (gốc × suất × năm), GIẢM LIÊN TIẾP (lần sau tính trên giá ĐÃ GIẢM — không cộng dồn phần trăm!).',
+            visual: 'tripercent',
+            visualCaption: 'Cùng một tam giác, bốn chiếc áo: giảm giá, thuế, lãi đơn, giảm liên tiếp.',
+            story: {
+              title: 'Cái bẫy giảm giá kép',
+              body: 'Cửa hàng treo biển: “GIẢM 20%, CUỐI TUẦN GIẢM THÊM 10%”. Não vội vàng tính: 30% — SAI! Hàng 200.000: giảm 20% còn 160.000. Giảm 10% LẦN SAU tính trên 160.000 (giá đã giảm), trừ 16.000 → còn 144.000. Tổng giảm 56.000 = 28%, không phải 30%. Vì lần sau dùng “tổng mới” — cái bánh bị cắt hai lần, lần hai cắt trên cái bánh đã nhỏ. Ngược lại, lãi đơn ngân hàng là người tử tế: gửi 1 triệu lãi 5%/năm thì MỖI năm đều lấy 5% của 1 triệu gốc = 50.000đ — năm thứ ba vẫn tính trên gốc.',
+            },
+            colorExample: {
+              intro: 'Mua hàng 500.000đ, giảm 20%, rồi cộng thuế 10%. Tổng trả?',
+              steps: [
+                { label: 'Giảm trước', color: 'blue', text: 'Phần giảm = 500.000 × 20/100 = 100.000 → còn 400.000.' },
+                { label: 'Thuế tính trên giá MỚI', color: 'green', text: 'Thuế = 400.000 × 10/100 = 40.000.' },
+                { label: 'Tổng', color: 'amber', text: '400.000 + 40.000 = 440.000 — thuế KHÔNG tính trên giá gốc 500.000.' },
+              ],
+            },
+            rhythm: { verse: 'Lãi đơn: gốc × suất × năm. Giảm liên tiếp: cắt trên giá đã cắt — đừng cộng dồn phần trăm.', note: 'Thứ tự giảm–thuế quan trọng: mỗi bước tính trên kết quả của bước trước.' },
+            representative: {
+              problem: 'Gửi tiết kiệm 2.000.000đ, lãi suất 6%/năm, lãi đơn. Sau 2 năm nhận bao nhiêu lãi?',
+              steps: [
+                { color: 'blue', text: 'Lãi 1 năm:', math: R`2\,000\,000 \times \frac{6}{100} = 120\,000` },
+                { color: 'green', text: 'Lãi đơn = mỗi năm như nhau:', math: R`120\,000 \times 2 = 240\,000` },
+                { color: 'amber', text: 'Công thức gọn: gốc × suất × năm = 2 triệu × 6% × 2.' },
+              ],
+            },
+            feynman: [
+              'Kể lại cái bẫy “giảm 20% + 10%” và chứng minh tổng giảm là 28% chứ không phải 30%.',
+              'Giải thích lãi đơn bằng câu “mỗi năm đều cắt trên cái bánh gốc”.',
+              'Tính hóa đơn của bạn: giảm trước hay thuế trước — kết quả có khác nhau không? Vì sao?',
             ],
           },
         ],
@@ -410,6 +472,39 @@ export const levels: Level[] = [
               'Vẽ tấm sàn 3 × (2 + 5) cắt đôi để giải thích phân phối, không dùng chữ “công thức”.',
               'Giải thích vì sao −3(x − 4) = −3x + 12 chứ không phải −3x − 12.',
               'Dùng phân phối để nhẩm 7 × 41 thành tiếng.',
+            ],
+          },
+          {
+            id: 'l1c5s4', title: 'Đa thức sơ khai: hộp nhiều ngăn', minutes: 20, status: 'full',
+            bigPicture: 'Đa thức là biểu thức “nhiều ngăn”: 3x² + 5x + 2 — mỗi ngăn (hạng tử) có BẬC riêng. Cộng trừ đa thức = gom hạng tử ĐỒNG DẠNG (cùng bậc) — nguyên lý “mẫu số giống nhau” trở lại. Nhân đơn thức với đa thức = phân phối đã học. Số không: −7 luôn là “ngăn tự do”.',
+            visual: 'distribute',
+            visualCaption: '2x(3x + 5): rắc 2x vào từng ngăn — 6x² + 10x.',
+            story: {
+              title: 'Tủ đồ có ngăn',
+              body: 'Tủ đồ có ba ngăn: ngăn áo, ngăn quần, ngăn đồ rác tự do. 3x² + 5x + 2 nghĩa là 3 chiếc áo, 5 chiếc quần, 2 thứ lặt vặt. Đến tủ thứ hai: 2x² − x. Hợp hai tủ: áo với áo (3 + 2 = 5 chiếc x²), quần với quần (5 − 1 = 4 chiếc x), đồ rác với đồ rác → 5x² + 4x. Còn ai dám gộp áo với quần — 3x + x² = 4x³? TUYỆT ĐỐI KHÔNG: khác bậc là khác loại đồ, chúng chỉ ĐỨNG CẠNH nhau trong biểu thức, không hòa vào nhau.',
+            },
+            colorExample: {
+              intro: 'Cộng: (3x² + 5x + 2) + (2x² − x). Tô màu theo ngăn.',
+              steps: [
+                { label: 'Ngăn x² (màu xanh)', color: 'blue', text: 'Gom áo:', math: R`3x^2 + 2x^2 = 5x^2` },
+                { label: 'Ngăn x (màu xanh lá)', color: 'green', text: 'Gom quần:', math: R`5x - x = 4x` },
+                { label: 'Ngăn tự do', color: 'amber', text: 'Chỉ có 2 một mình — giữ nguyên.' },
+                { label: 'Kết quả', color: 'rose', text: 'Xếp lại tủ:', math: R`5x^2 + 4x + 2` },
+              ],
+            },
+            rhythm: { verse: 'Cùng bậc mới gộp chung — khác bậc đứng cạnh thôi. Nhân rắc từng ngăn, mũ cộng khi nhân cùng gốc.', note: 'Nhân hai đơn thức: nhân hệ số, cộng mũ: 2x · 3x² = 6x³.' },
+            representative: {
+              problem: 'Nhân: 2x(3x + 5).',
+              steps: [
+                { color: 'blue', text: 'Phân phối — rắc 2x vào từng ngăn:', math: R`2x \cdot 3x + 2x \cdot 5` },
+                { color: 'green', text: 'Nhân hệ số, cộng mũ:', math: R`= 6x^2 + 10x` },
+                { color: 'amber', text: 'Kết quả 2 ngăn mới: ngăn x² và ngăn x — không dám gộp chung!' },
+              ],
+            },
+            feynman: [
+              'Kể chuyện tủ đồ 3 ngăn và giải thích vì sao 3x + x² ≠ 4x³.',
+              'Rút gọn 4x² + 3x − x² + 5x thành tiếng theo từng ngăn.',
+              'Nối lại: phân phối (bài trước) xuất hiện ở đâu trong nhân đa thức?',
             ],
           },
         ],
