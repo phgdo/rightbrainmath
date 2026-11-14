@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { flatLessons, getLesson, stepColors, themes } from '../data/content'
 import { exercisesByLesson } from '../data/exercises'
+import { sourcesByLesson } from '../data/sources'
 import { Icon } from '../components/Icon'
 import { Visual } from '../components/Visuals'
 import { Tex } from '../components/Tex'
@@ -111,6 +112,11 @@ export default function LessonPage() {
           <span className="text-xs text-stone-400">{lesson.minutes} phút đọc</span>
         </div>
         <h1 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight text-stone-900">{lesson.title}</h1>
+        {sourcesByLesson[lesson.id] && (
+          <p className="mt-2 text-sm text-stone-500">
+            Đọc sâu trong giáo trình: <span className={`font-semibold ${th.text}`}>{sourcesByLesson[lesson.id]}</span>
+          </p>
+        )}
       </header>
 
       {lesson.status === 'outline' ? (

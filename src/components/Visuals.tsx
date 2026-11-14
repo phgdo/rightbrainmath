@@ -772,13 +772,35 @@ function permute(c: string): ReactElement {
   )
 }
 
+function distribute(c: string): ReactElement {
+  return (
+    <Frame>
+      <text x="360" y="44" textAnchor="middle" fontSize="17" fontWeight="700" fill={ink} style={T}>
+        3 × (b + c) — cắt dọc tấm sàn thành hai mảnh
+      </text>
+      <rect x="150" y="80" width="120" height="160" fill={c} opacity="0.3" stroke={ink} />
+      <rect x="270" y="80" width="300" height="160" fill="#f59e0b" opacity="0.3" stroke={ink} />
+      <text x="210" y="170" textAnchor="middle" fontSize="18" fontWeight="800" fill={ink} style={T}>3 × b</text>
+      <text x="420" y="170" textAnchor="middle" fontSize="18" fontWeight="800" fill={ink} style={T}>3 × c</text>
+      <text x="210" y="270" textAnchor="middle" fontSize="14" fill={ink} style={T}>b</text>
+      <text x="420" y="270" textAnchor="middle" fontSize="14" fill={ink} style={T}>c</text>
+      <text x="128" y="165" textAnchor="end" fontSize="14" fill={ink} style={T}>3</text>
+      <line x1="150" y1="285" x2="270" y2="285" stroke={faint} strokeWidth="1.5" />
+      <line x1="270" y1="285" x2="570" y2="285" stroke={faint} strokeWidth="1.5" />
+      <text x="360" y="320" textAnchor="middle" fontSize="15" fill={ink} style={T}>
+        3(b + c) = 3b + 3c — nhân “rắc” vào từng số hạng, tổng không đổi
+      </text>
+    </Frame>
+  )
+}
+
 const registry: Record<VisualKind, (c: string) => ReactElement> = {
   numberline, pizza, balance, absquare, machine,
   unitcircle, domino, zeno, tangent, matrix,
   ladder, realline, epsband, sieve, tower,
   stretch, tripercent, cross, translate, parabola,
   similar, slope, quantify, extrema, riemann,
-  basis, eigen, clock, donut, permute,
+  basis, eigen, clock, donut, permute, distribute,
 }
 
 export function Visual({ kind, color }: { kind: VisualKind; color: string }) {

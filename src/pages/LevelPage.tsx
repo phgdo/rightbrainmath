@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { flatLessons, levels, themes } from '../data/content'
 import { exercisesByLesson } from '../data/exercises'
+import { sourcesByLesson } from '../data/sources'
 import { Icon } from '../components/Icon'
 import { Visual } from '../components/Visuals'
 import { useProgress } from '../hooks/useProgress'
@@ -174,6 +175,9 @@ export default function LevelPage() {
                         {checked ? 'Đã hoàn thành' : 'Đánh dấu xong'}
                       </button>
                       <p className="text-center text-xs text-stone-400 lg:text-left">cuộn xuống để sang bài sau</p>
+                      {sourcesByLesson[lsn.id] && (
+                        <p className="text-center text-[11px] leading-snug text-stone-400 lg:text-left">Sách: {sourcesByLesson[lsn.id]}</p>
+                      )}
                     </div>
                   </aside>
                 </div>

@@ -6,7 +6,7 @@ export type VisualKind =
   | 'ladder' | 'realline' | 'epsband' | 'sieve' | 'tower'
   | 'stretch' | 'tripercent' | 'cross' | 'translate' | 'parabola'
   | 'similar' | 'slope' | 'quantify' | 'extrema' | 'riemann'
-  | 'basis' | 'eigen' | 'clock' | 'donut' | 'permute'
+  | 'basis' | 'eigen' | 'clock' | 'donut' | 'permute' | 'distribute'
 
 export interface Step { label?: string; color: ColorKey; text: string; math?: string }
 
@@ -137,10 +137,40 @@ export const levels: Level[] = [
               'Vì sao cùng tầng cộng trừ phải tính trái sang phải? Thử 10 − 4 + 3 hai cách.',
             ],
           },
+          {
+            id: 'l1c1s3', title: 'Ước lượng & làm tròn: toán của siêu thị', minutes: 15, status: 'full',
+            bigPicture: 'Đời thực không cần chính xác từng xu — cần ĐỦ GẦN để ra quyết định. Làm tròn = thay số bằng “số dễ đọc” gần nó (47 → 50). Ước lượng = tính nhẩm với số đã làm tròn, để biết trước kết quả “nằm đâu” — rồi kiểm tra xem đáp án chính xác có hợp lý không.',
+            story: {
+              title: 'Người mua không bao giờ bị mất tiền',
+              body: 'Mẹ dặn “chỉ được tiêu 300 nghìn”. Giỏ hàng: 47k + 92k + 118k + 65k. Trước khi bấm máy tính, làm tròn tới chục: 50 + 90 + 120 + 70 = 330 nghìn — HƠN 300! Bỏ bớt một món ngay, không cần tính chính xác. Ước lượng còn là “cảnh sát giao thông” cho đáp án: máy tính hiện 29 × 12 = 3 480 — bạn bắn ngay: “sai, vì 29 ≈ 30 và 30 × 12 = 360!”. Người làm tròn giỏi hiếm khi bị số đùa cợt.',
+            },
+            colorExample: {
+              intro: 'Ước lượng: 47 + 92 + 118 + 65.',
+              steps: [
+                { label: 'Làm tròn tới chục', color: 'blue', text: 'Chọn số dễ đọc gần nhất:', math: R`47 \to 50,\; 92 \to 90,\; 118 \to 120,\; 65 \to 70` },
+                { label: 'Cộng nhẩm', color: 'green', text: 'Số dễ đọc cộng như chơi:', math: R`50 + 90 + 120 + 70 = 330` },
+                { label: 'Kết luận', color: 'amber', text: 'Kết quả thật sẽ “rất gần” 330 — dùng để ra quyết định hoặc kiểm tra máy tính.' },
+              ],
+            },
+            rhythm: { verse: 'Làm tròn số dễ nhớ, cộng nhẩm nhanh gọn lỏn — chênh đôi chút không sao, đủ chắc để ra tay.', note: 'Quy tắc 5: ≥ 5 làm tròn lên, < 5 làm tròn xuống. 47 → 50, 92 → 90.' },
+            representative: {
+              problem: 'Máy tính hiện 29 × 12 = 3 480. Sai ở đâu mà nghi ngờ?',
+              steps: [
+                { color: 'blue', text: 'Ước lượng:', math: R`29 \approx 30,\quad 30 \times 12 = 360` },
+                { color: 'rose', text: 'Máy hiện 3 480 — lớn gấp ~10 lần ước lượng → gần như chắc chắn gõ thừa một chữ số.' },
+                { color: 'green', text: 'Thực tế 29 × 12 = 348. Ước lượng đã cứu bạn khỏi trả lời sai vì lỗi gõ.' },
+              ],
+            },
+            feynman: [
+              'Kể lại chuyện giỏ hàng siêu thị và giải thích vì sao ước lượng đủ để quyết định.',
+              'Nêu quy tắc làm tròn 5 và làm tròn 4 số bất kỳ bạn thấy quanh phòng.',
+              'Giải thích “cảnh sát giao thông cho đáp án” — ước lượng bắt lỗi máy tính thế nào?',
+            ],
+          },
         ],
       },
       {
-        id: 'l1c2', title: 'Phân số & Số hỗn hợp', bigIdea: 'Phân số là phép chia chưa làm xong: 3/4 vừa là “3 miếng trên 4 miếng” vừa là 3 ÷ 4. Mẫu số giống nhau = cùng đơn vị đo.',
+        id: 'l1c2', title: 'Phân số & Số thập phân', bigIdea: 'Phân số là phép chia chưa làm xong: 3/4 vừa là “3 miếng trên 4 miếng” vừa là 3 ÷ 4. Thập phân là phân số với mẫu “đẹp” (10, 100, 1000). Mẫu số giống nhau = cùng đơn vị đo.',
         lessons: [
           {
             id: 'l1c2s1', title: 'Phân số: cái bánh và ý nghĩa trên–dưới', minutes: 25, status: 'full',
@@ -172,6 +202,38 @@ export const levels: Level[] = [
               'Vẽ pizza giải thích tại sao 2/3 + 1/4 KHÔNG phải 3/7.',
               'Giải thích “chia cho phân số thì lật ngược” bằng ý “bao nhiêu miếng 1/4 nằm trong 3 miếng”?',
               'Nói to vần điệu quy tắc cộng–nhân–chia phân số mà không nhìn tài liệu.',
+            ],
+          },
+          {
+            id: 'l1c2s2', title: 'Số thập phân: phân số với mẫu số “đẹp”', minutes: 20, status: 'full',
+            bigPicture: 'Số thập phân chỉ là phân số có mẫu 10–100–1000: 0,3 = 3/10; 0,07 = 7/100. Nhờ mẫu “đẹp”, cộng trừ dễ như số nguyên — điều kiện duy nhất: THẲNG HÀNG dấu phẩy (cột cùng tên thẳng nhau). Nhân thì tính như số nguyên rồi “trả lãi” dấu phẩy theo tổng số chữ số sau phẩy.',
+            visual: 'pizza',
+            visualCaption: '0,5 = 5/10 = 1/2 — thập phân và phân số là cùng một lượng, khác cách viết.',
+            story: {
+              title: 'Tiền Việt là thầy dạy thập phân',
+              body: '1.500đ = 1 nghìn rưỡi = 1,5 nghìn. Khi bạn cộng hóa đơn, bạn tự động thẳng hàng: nghìn với nghìn, trăm với trăm, chục với chục. Dấu phẩy thập phân chỉ là “biên giới” — bên trái là phần nguyên, bên phải là các phần “miếng vụn” theo mũ của 10. Nhân thập phân có mẹo: 0,3 × 0,2 — bỏ phẩy, tính 3 × 2 = 6, rồi đếm tổng 2 chữ số sau phẩy ở hai thừa số để “gắn phẩy lại”: 0,06. Đó chính là nhân phân số: 3/10 × 2/10 = 6/100.',
+            },
+            colorExample: {
+              intro: 'Tính: 12,5 + 3,75 + 0,4.',
+              steps: [
+                { label: 'Thẳng hàng phẩy', color: 'blue', text: 'Cột cùng tên thẳng nhau (chục–đơn vị–phần 10–phần 100):' },
+                { label: 'Cộng như số nguyên', color: 'green', text: 'Bỏ qua phẩy, cộng từng cột từ phải sang trái, có nhớ.' },
+                { label: 'Trả phẩy về đúng hàng', color: 'amber', text: 'Dấu phẩy xếp thẳng cột với các số gốc:', math: R`12{,}5 + 3{,}75 + 0{,}4 = 16{,}65` },
+              ],
+            },
+            rhythm: { verse: 'Cộng trừ: phẩy thẳng hàng — cột cùng tên gặp nhau. Nhân: nhân như thường, đếm phẩy rồi gắn lại.', note: 'Chia thập phân: dời phẩy của số chia sao cho thành số nguyên, dời phẩy số bị chia Y HỆT bao nhiêu bước.' },
+            representative: {
+              problem: '0,3 × 0,2 = ? — câu hỏi đánh lừa cả lớp học.',
+              steps: [
+                { color: 'rose', text: 'Trực giác sai thường gặp: “0,06? nhỏ quá — chắc 0,6!”' },
+                { color: 'blue', text: 'Phân số soi đường:', math: R`\frac{3}{10} \times \frac{2}{10} = \frac{6}{100} = 0{,}06` },
+                { color: 'green', text: 'Quy tắc: 3 × 2 = 6, tổng 2 chữ số sau phẩy → gắn phẩy → 0,06. Nhân hai số nhỏ hơn 1 cho kết quả CÒN NHỎ HƠN nữa — hợp lý!' },
+              ],
+            },
+            feynman: [
+              'Giải thích vì sao 0,5 và 1/2 là “cùng một lượng, khác cách viết”.',
+              'Kể quy tắc “đếm phẩy rồi gắn lại” khi nhân thập phân, kèm ví dụ 1,2 × 0,3.',
+              'Vì sao cộng thập phân phải thẳng hàng phẩy mà nhân thì không?',
             ],
           },
         ],
@@ -316,6 +378,107 @@ export const levels: Level[] = [
               'Kể lại 4 mã dịch và vì sao nên đặt x cho người “ít hơn”.',
               'Tự viết một đề bài từ phương trình 2x − 3 = 15 (dịch ngược!).',
               'Giải thích bước “đối chiếu câu chuyện gốc” — vì sao nó cứu bạn khỏi sai dịch.',
+            ],
+          },
+          {
+            id: 'l1c5s3', title: 'Phân phối: mở ngoặc là cắt hình chữ nhật', minutes: 20, status: 'full',
+            bigPicture: 'Phân phối a(b + c) = ab + ac là chuyện CẮT HÌNH: hình chữ nhật 3 × (b + c) cắt đôi thành 3 × b và 3 × c. Nhân “rắc” vào TỪNG số hạng trong ngoặc — kể cả dấu trừ. Trừ × trừ = cộng, vì “hủy lệnh trừ”.',
+            visual: 'distribute',
+            visualCaption: '3 × (b + c): cắt dọc tấm sàn thành hai mảnh — tổng diện tích không đổi.',
+            story: {
+              title: 'Sảnh trường 30 chiếc ghế',
+              body: 'Sảnh có 3 khu, mỗi khu 2 dãy, mỗi dãy 5 ghế: tổng = 3 × (2 × 5) = 30. Cách khác: đếm theo dọc — 3 × 2 ghế khu A cộng 3 × 5 ghế khu B? Số nói khác thì sao? Hãy vẽ: tấm sàn 3 hàng × (2 + 5) cột. Cắt DỌC giữa: mảnh trái 3 × 2, mảnh phải 3 × 5 — ghép lại vẫn là tấm sàn cũ. Phân phối chỉ là cắt hình. Cảnh báo cuối: dấu trừ cũng được “rắc”: −3(x − 4) = −3x + 12, vì −3 × (−4) = +12 — trừ × trừ là hủy lệnh trừ.',
+            },
+            colorExample: {
+              intro: 'Mở ngoặc: −2(3x − 5).',
+              steps: [
+                { label: 'Rắc −2 vào số hạng đầu', color: 'blue', text: 'Mỗi số hạng đều nhận một bản sao của −2:', math: R`-2 \cdot 3x = -6x` },
+                { label: 'Rắc vào số hạng sau — cẩn thận dấu', color: 'amber', text: 'Trừ × trừ ra cộng:', math: R`-2 \cdot (-5) = +10` },
+                { label: 'Ghép lại', color: 'green', text: 'Kết quả:', math: R`-2(3x - 5) = -6x + 10` },
+              ],
+            },
+            rhythm: { verse: 'Nhân rắc đều từng hạng tử — trừ nhân trừ, hóa cộng thôi.', note: 'Lỗi kinh điển: quên rắc dấu âm vào số hạng thứ hai. Đếm số mũi tên: a ngoài ngoặc phải “chạm” cả b và c.' },
+            representative: {
+              problem: 'Tính nhẩm 5 × 28 bằng phân phối.',
+              steps: [
+                { color: 'blue', text: 'Tách 28 = 20 + 8:', math: R`5 \times (20 + 8)` },
+                { color: 'green', text: 'Rắc:', math: R`5 \times 20 + 5 \times 8 = 100 + 40` },
+                { color: 'amber', text: '= 140 — nhẩm nhanh hơn 5 × 28 trực tiếp nhiều.' },
+              ],
+            },
+            feynman: [
+              'Vẽ tấm sàn 3 × (2 + 5) cắt đôi để giải thích phân phối, không dùng chữ “công thức”.',
+              'Giải thích vì sao −3(x − 4) = −3x + 12 chứ không phải −3x − 12.',
+              'Dùng phân phối để nhẩm 7 × 41 thành tiếng.',
+            ],
+          },
+        ],
+      },
+      {
+        id: 'l1c6', title: 'Hình học & Đồ thị đầu đời', bigIdea: 'Toán có ba “chiều” đo: chạy quanh mép (chu vi), lót sàn (diện tích), đổ nước (thể tích) — và một bản đồ hai chiều gọi là đồ thị.',
+        lessons: [
+          {
+            id: 'l1c6s1', title: 'Diện tích – chu vi – thể tích: ba chiều đo', minutes: 20, status: 'full',
+            bigPicture: 'Ba câu hỏi, ba chiều: “bao nhiêu mét hàng rào?” = CHU VI (một chiều, m); “bao nhiêu gạch để lát?” = DIỆN TÍCH (hai chiều, m²); “bao nhiêu nước đầy bể?” = THỂ TÍCH (ba chiều, m³). Nhầm đơn vị giữa ba tầng này là lỗi kinh điển nhất của level 1.',
+            visual: 'absquare',
+            visualCaption: 'Diện tích hình vuông s × s = s²: “lũy thừa 2” chính là chuyện lót sàn.',
+            story: {
+              title: 'Kiến bò, thợ lát, nước rót',
+              body: 'Một mảnh vườn, ba nhân vật, ba câu hỏi khác nhau. Con KIẾN bò sát mép vườn — nó quan tâm chu vi: bao nhiêu mét hàng rào. Người THỢ LÁT nằm rải gạch trên sàn — quan tâm diện tích: mỗi hàng dài viên gạch, nhân số hàng. Chai NƯỚC rót vào bể — quan tâm thể tích: lấp cả ba chiều. Vườn 6 m × 4 m: kiến bò 2 × (6 + 4) = 20 m; thợ lát 6 × 4 = 24 m²; nếu là bể sâu 2 m thì nước cần 24 × 2 = 48 m³ = 48.000 lít. Ba phép tính, một mảnh đất — và mỗi phép tính có đơn vị riêng: m, m², m³.',
+            },
+            colorExample: {
+              intro: 'Vườn 6 m × 4 m. Hàng rào, gạch lát, và bể sâu 2 m.',
+              steps: [
+                { label: 'Kiến bò mép', color: 'blue', text: 'Chu vi:', math: R`2 \times (6 + 4) = 20\ \text{m}` },
+                { label: 'Thợ lót sàn', color: 'green', text: 'Diện tích:', math: R`6 \times 4 = 24\ \text{m}^2` },
+                { label: 'Nước rót bể', color: 'amber', text: 'Thể tích:', math: R`24 \times 2 = 48\ \text{m}^3 = 48\,000\ \text{lít}` },
+              ],
+            },
+            rhythm: { verse: 'Kiến bò chu vi, thợ lót diện tích, nước rót thể tích — mét, mét vuông, mét khối.', note: 'Tam giác vuông: S = đáy × cao / 2 (nửa hình chữ nhật). Hình tròn: S ≈ 3,14 × r² (chờ level 2 nói kỹ π).' },
+            representative: {
+              problem: 'Sàn 24 m² lát gạch mỗi viên 0,5 m × 0,5 m. Cần bao nhiêu viên?',
+              steps: [
+                { color: 'blue', text: 'Diện tích 1 viên:', math: R`0{,}5 \times 0{,}5 = 0{,}25\ \text{m}^2` },
+                { color: 'green', text: 'Số viên = sàn ÷ viên:', math: R`24 \div 0{,}25 = 96` },
+                { color: 'amber', text: 'Kiểm tra bằng mắt: viên gạch nhỏ 4 viên/m² → 24 × 4 = 96 ✓' },
+              ],
+            },
+            feynman: [
+              'Kể lại ba nhân vật kiến–thợ–nước và gắn đúng ba đơn vị m, m², m³.',
+              'Giải thích vì sao diện tích dùng “mét vuông” mà không phải “mét”.',
+              'Tính chu vi + diện tích phòng bạn đang ngồi, bằng bước chân làm thước đo.',
+            ],
+          },
+          {
+            id: 'l1c6s2', title: 'Đọc đồ thị: trục số hai chiều', minutes: 20, status: 'full',
+            bigPicture: 'Trục số là con đường một chiều; ghép hai trục vuông góc thành BẢN ĐỒ hai chiều — mặt phẳng tọa độ. Mọi điểm có địa chỉ (x, y): đi ngang trước, dọc sau. Đồ thị là câu chuyện kể bằng hình: dốc lên = tăng, dốc xuống = giảm, phẳng = đứng yên — càng đứng càng thay đổi nhanh.',
+            visual: 'slope',
+            visualCaption: 'Địa chỉ (x, y): đi ngang x trước, dọc y sau. Đường đi lên = dữ liệu đang tăng.',
+            story: {
+              title: 'Sân trường và bảng tăng trưởng',
+              body: 'Tìm bạn ở sân trường: “dãy C, hàng 3” — bạn tự động đi NGANG tới dãy C rồi DỌC tới hàng 3. Mặt phẳng tọa độ làm đúng thao tác đó: địa chỉ (x, y) = (ngang, dọc). Giờ kể chuyện bằng điểm: bảng theo dõi cây — tháng 1 cao 10 cm, tháng 2 cao 15 cm, tháng 3 cao 19 cm. Chấm (1, 10), (2, 15), (3, 19) rồi nối: đường đi lên đều = “cây lớn đều mỗi tháng”. Nếu đường phẳng: cây ngừng lớn. Nếu đường đứng sừng sững: tăng vọt bất thường. Đọc đồ thị = đọc nhật ký bằng mắt, trước cả khi đọc số.',
+            },
+            colorExample: {
+              intro: 'Tìm điểm có địa chỉ (3, 4).',
+              steps: [
+                { label: 'Đi ngang trước', color: 'blue', text: 'Từ gốc, đi phải 3 bước trên trục hoành.' },
+                { label: 'Đi dọc sau', color: 'green', text: 'Leo lên 4 bước song song trục dọc — chạm đích.' },
+                { label: 'Ghi địa chỉ', color: 'amber', text: '(3, 4) — nhớ thứ tự: ngang trước, dọc sau. (3, 4) và (4, 3) là hai địa chỉ KHÁC nhau!' },
+              ],
+            },
+            rhythm: { verse: 'Ngang trước, dọc sau — (x, y) là địa chỉ; dốc lên là tăng, dốc xuống là giảm.', note: 'Gốc tọa độ (0, 0) là “cổng vào sân trường” — mọi địa chỉ đếm từ đó.' },
+            representative: {
+              problem: 'Nhiệt độ: 6h = 20°, 12h = 30°, 18h = 24°. Vẽ và đọc câu chuyện.',
+              steps: [
+                { color: 'blue', text: 'Chấm 3 điểm: (6, 20), (12, 30), (18, 24).' },
+                { color: 'green', text: 'Đường 6h→12h đi lên, 12h→18h đi xuống nhẹ — “lên đỉnh giữa trưa”.' },
+                { color: 'amber', text: 'Chưa tính được gì phức tạp, nhưng chỉ nhìn hình bạn đã biết: trưa nóng nhất. Đó là sức mạnh của đồ thị.' },
+              ],
+            },
+            feynman: [
+              'Kể lại ví dụ sân trường và giải thích vì sao (3, 4) ≠ (4, 3).',
+              'Vẽ đồ thị nhiệt độ một ngày của bạn từ trí nhớ và “đọc câu chuyện”.',
+              'Nói 3 trạng thái đường đồ thị: dốc lên, dốc xuống, phẳng — mỗi trạng thái một ví dụ đời thực.',
             ],
           },
         ],

@@ -61,6 +61,81 @@ export const exercisesByLesson: Record<string, Exercise[]> = {
       explain: 'Trước tiên bỏ cộng trừ: 2x = 14. Sau đó nhân chia: x = 7. Đúng vần "bỏ cộng trừ trước, nhân chia sau".',
     },
   ],
+  l1c1s3: [
+    {
+      q: 'Ước lượng nhanh: 197 + 51 + 28 ≈ ?',
+      options: ['280', '180', '476', '400'],
+      answer: 0,
+      explain: '200 + 50 + 30 = 280. Số dễ đọc cho ra quyết định nhanh — kết quả thật (276) rất gần.',
+    },
+    {
+      q: 'Máy tính hiện 61 × 9 = 549. Nên nghi ngờ không?',
+      options: [
+        'Có — vì 60 × 9 = 540, gần đúng là 549',
+        'Có — kết quả phải trên 1000',
+        'Không — 549 hợp lý',
+        'Có — 61 × 9 phải là số chẵn',
+      ],
+      answer: 0,
+      explain: 'Ước lượng 61 ≈ 60 → 540. Máy hiện 549 — rất gần → kết quả hợp lý, không phải lỗi gõ.',
+    },
+  ],
+  l1c2s2: [
+    {
+      q: '0,7 + 0,25 = ?',
+      options: ['0,95', '0,32', '0,725', '1,75'],
+      answer: 0,
+      explain: 'Thẳng hàng phẩy: 0,70 + 0,25 = 0,95. Cột cùng tên (phần 100) thẳng nhau.',
+    },
+    {
+      q: '0,4 × 0,3 = ?',
+      options: ['0,12', '1,2', '0,7', '0,4'],
+      answer: 0,
+      explain: '4 × 3 = 12; tổng 2 chữ số sau phẩy → 0,12. Tức 4/10 × 3/10 = 12/100.',
+    },
+  ],
+  l1c5s3: [
+    {
+      q: 'Mở ngoặc: 4(2x − 3) = ?',
+      options: ['8x − 12', '8x − 3', '6x − 12', '8x + 12'],
+      answer: 0,
+      explain: 'Rắc 4 vào từng số hạng: 4 · 2x = 8x và 4 · (−3) = −12.',
+    },
+    {
+      q: 'Mở ngoặc: −5(x − 2) = ?',
+      options: ['−5x + 10', '−5x − 10', '−5x − 2', '5x − 10'],
+      answer: 0,
+      explain: 'Dấu âm cũng được rắc: −5 · x = −5x và −5 · (−2) = +10 (trừ × trừ = cộng).',
+    },
+  ],
+  l1c6s1: [
+    {
+      q: 'Sân 8 m × 5 m cần bao nhiêu mét hàng rào?',
+      options: ['26 m', '40 m', '13 m', '40 m²'],
+      answer: 0,
+      explain: 'Hàng rào = chu vi = 2(8 + 5) = 26 m. Kiến bò quanh mép — đơn vị mét, không phải mét vuông.',
+    },
+    {
+      q: 'Bể 2 m × 2 m × 2 m chứa được bao nhiêu lít nước?',
+      options: ['8.000 lít', '8 lít', '800 lít', '6 lít'],
+      answer: 0,
+      explain: 'Thể tích = 8 m³; 1 m³ = 1.000 lít → 8.000 lít. Nước rót — ba chiều.',
+    },
+  ],
+  l1c6s2: [
+    {
+      q: 'Điểm (2, 5) nghĩa là?',
+      options: ['Đi ngang 2, dọc 5', 'Đi ngang 5, dọc 2', 'Đi ngang 2 rồi ngang 5', 'Đi dọc 5 rồi ngang 5'],
+      answer: 0,
+      explain: 'Ngang trước (x), dọc sau (y) — như “dãy C, hàng 3” ở sân trường.',
+    },
+    {
+      q: 'Đồ thị doanh thu có đường đi lên đều đặn nghĩa là?',
+      options: ['Doanh thu tăng đều', 'Doanh thu giảm', 'Doanh thu đứng yên', 'Doanh thu tăng nhanh dần'],
+      answer: 0,
+      explain: 'Dốc lên đều = tăng đều. Dốc càng đứng càng tăng nhanh; đường phẳng = không đổi.',
+    },
+  ],
   l2c1s1: [
     {
       q: 'Khai triển (x + 5)² = ?',
