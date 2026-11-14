@@ -7,6 +7,7 @@ export type VisualKind =
   | 'stretch' | 'tripercent' | 'cross' | 'translate' | 'parabola'
   | 'similar' | 'slope' | 'quantify' | 'extrema' | 'riemann'
   | 'basis' | 'eigen' | 'clock' | 'donut' | 'permute' | 'distribute'
+  | 'rounding' | 'staircase'
 
 export interface Step { label?: string; color: ColorKey; text: string; math?: string }
 
@@ -140,6 +141,8 @@ export const levels: Level[] = [
           {
             id: 'l1c1s3', title: 'Ước lượng & làm tròn: toán của siêu thị', minutes: 15, status: 'full',
             bigPicture: 'Đời thực không cần chính xác từng xu — cần ĐỦ GẦN để ra quyết định. Làm tròn = thay số bằng “số dễ đọc” gần nó (47 → 50). Ước lượng = tính nhẩm với số đã làm tròn, để biết trước kết quả “nằm đâu” — rồi kiểm tra xem đáp án chính xác có hợp lý không.',
+            visual: 'rounding',
+            visualCaption: '47 đứng gần 50 hơn 40 — làm tròn lên. ≥ 5 thì lên, < 5 thì xuống.',
             story: {
               title: 'Người mua không bao giờ bị mất tiền',
               body: 'Mẹ dặn “chỉ được tiêu 300 nghìn”. Giỏ hàng: 47k + 92k + 118k + 65k. Trước khi bấm máy tính, làm tròn tới chục: 50 + 90 + 120 + 70 = 330 nghìn — HƠN 300! Bỏ bớt một món ngay, không cần tính chính xác. Ước lượng còn là “cảnh sát giao thông” cho đáp án: máy tính hiện 29 × 12 = 3 480 — bạn bắn ngay: “sai, vì 29 ≈ 30 và 30 × 12 = 360!”. Người làm tròn giỏi hiếm khi bị số đùa cợt.',
@@ -170,6 +173,8 @@ export const levels: Level[] = [
           {
             id: 'l1c1s4', title: 'Ước lượng × Độ lớn: làm quen “triệu – tỷ”', minutes: 10, status: 'full',
             bigPicture: 'Trước khi tính, hãy CÂN ĐO độ lớn: 1 nghìn = 10 × 1 trăm; 1 triệu = 1.000 × 1 nghìn; 1 tỷ = 1.000 × 1 triệu. Não phải cần thang bậc: số to hơn bao nhiêu so với số nhỏ? Nhân 10 là “thêm một chữ số 0”, nhân 1.000 là “thêm ba”.',
+            visual: 'staircase',
+            visualCaption: 'Thang bậc của tiền: mỗi bậc nhân 10 — nghìn, triệu, tỷ.',
             story: {
               title: 'Thang bậc của tiền',
               body: 'Hãy đứng đầu thang: 1 đơn vị → 10 → 100 → 1 nghìn → 10 nghìn → 100 nghìn → 1 TRIỆU → 10 triệu → 100 triệu → 1 TỶ. Mỗi bậc là nhân 10 — thêm một “sàn nhà”. Trăm nghìn là tiền mua điện thoại; 10 triệu là tiền mua xe máy; 1 tỷ là tiền mua căn nhà nhỏ. Khi đọc tin tức “cán bộ chiếm đoạt 30 tỷ”, não phải của bạn hình dung được: bằng 30 căn nhà. Không cần tính chính xác — chỉ cần THANG BẬC để số không còn là những con chữ vô nghĩa.',

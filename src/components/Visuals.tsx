@@ -794,6 +794,75 @@ function distribute(c: string): ReactElement {
   )
 }
 
+function rounding(c: string): ReactElement {
+  const x = (v: number) => 90 + (v - 40) * 25
+  const pairs = ['47 → 50', '92 → 90', '118 → 120', '65 → 70']
+  return (
+    <Frame>
+      <text x="360" y="44" textAnchor="middle" fontSize="17" fontWeight="700" fill={ink} style={T}>
+        Làm tròn: chọn số dễ đọc gần nhất
+      </text>
+      <line x1="70" y1="150" x2="660" y2="150" stroke={ink} strokeWidth="2" />
+      {[40, 45, 50, 55, 60].map((v) => (
+        <g key={v}>
+          <line x1={x(v)} y1="144" x2={x(v)} y2="156" stroke={ink} strokeWidth="1.5" />
+          <text x={x(v)} y="178" textAnchor="middle" fontSize="13" fill={ink} style={T}>{v}</text>
+        </g>
+      ))}
+      <circle cx={x(47)} cy="150" r="7" fill={c} />
+      <text x={x(47)} y="128" textAnchor="middle" fontSize="13" fontWeight="700" fill={c} style={T}>47</text>
+      <path d={`M ${x(47)} 138 Q ${x(48.5)} 95 ${x(50)} 138`} fill="none" stroke={c} strokeWidth="2.5" className="anim-dash" />
+      <polygon points={`${x(50)},140 ${x(50) - 9},131 ${x(50) - 1},147`} fill={c} />
+      <text x={x(48.5)} y="86" textAnchor="middle" fontSize="13" fontWeight="700" fill={c} style={T}>làm tròn lên</text>
+      <text x="360" y="215" textAnchor="middle" fontSize="13" fill="#78716c" style={T}>chữ số kế tiếp ≥ 5 → lên · nhỏ hơn 5 → xuống</text>
+      {pairs.map((p, i) => (
+        <g key={p}>
+          <rect x={80 + i * 145} y="245" width="130" height="52" rx="12" fill="#fff" stroke={faint} strokeWidth="1.5" />
+          <text x={145 + i * 145} y="278" textAnchor="middle" fontSize="16" fontWeight="800" fill={ink} style={T}>{p}</text>
+        </g>
+      ))}
+    </Frame>
+  )
+}
+
+function staircase(c: string): ReactElement {
+  const steps = [
+    { label: '1', life: '' },
+    { label: '10', life: '' },
+    { label: '100', life: '' },
+    { label: '1 nghìn', life: 'bánh sinh nhật' },
+    { label: '1 triệu', life: 'xe đạp điện' },
+    { label: '1 tỷ', life: 'căn hộ nhỏ' },
+  ]
+  return (
+    <Frame>
+      <text x="360" y="42" textAnchor="middle" fontSize="17" fontWeight="700" fill={ink} style={T}>
+        Thang bậc của tiền — mỗi bậc nhân 10
+      </text>
+      {steps.map((s, i) => {
+        const w = 100 + i * 14
+        const x = 120 + i * 20
+        const y = 300 - i * 42
+        return (
+          <g key={s.label}>
+            <rect x={x} y={y} width={w} height={42} rx="8" fill={i >= 4 ? c : '#fff'} opacity={i >= 4 ? 0.85 : 1} stroke={i >= 4 ? c : faint} strokeWidth="1.5" className="anim-pulse" style={{ animationDelay: `${i * 0.3}s` }} />
+            <text x={x + w / 2} y={y + 27} textAnchor="middle" fontSize="14" fontWeight="800" fill={i >= 4 ? '#fff' : ink} style={T}>{s.label}</text>
+            {s.life && (
+              <text x={x + w + 14} y={y + 27} fontSize="12" fill="#78716c" style={T}>≈ {s.life}</text>
+            )}
+            {i < steps.length - 1 && (
+              <text x={x + w + 2} y={y - 6} fontSize="11" fontWeight="700" fill={c} style={T}>×10</text>
+            )}
+          </g>
+        )
+      })}
+      <text x="360" y="344" textAnchor="middle" fontSize="13" fill="#78716c" style={T}>
+        Đếm nhóm 3 chữ số là biết “sàn nhà”: 250.000 (trăm nghìn) → 2.500.000 (2,5 triệu)
+      </text>
+    </Frame>
+  )
+}
+
 const registry: Record<VisualKind, (c: string) => ReactElement> = {
   numberline, pizza, balance, absquare, machine,
   unitcircle, domino, zeno, tangent, matrix,
@@ -801,6 +870,7 @@ const registry: Record<VisualKind, (c: string) => ReactElement> = {
   stretch, tripercent, cross, translate, parabola,
   similar, slope, quantify, extrema, riemann,
   basis, eigen, clock, donut, permute, distribute,
+  rounding, staircase,
 }
 
 export function Visual({ kind, color }: { kind: VisualKind; color: string }) {
